@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: buddah
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/buddah?createDatabaseIfNotExist=true
+    username: root
+    password: 056589102
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+
+management:
+  endpoints:
+    web:
+      base-path: "/actuator"
+      exposure:
+        include: "*"
+
+  endpoint:
+    metrics:
+      enabled: true
+    info:
+      enabled: true  # <-- This line enables the info endpoint
+
+info:
+  app:
+    name: SmilingBuddah
+    version: 1.0.0
+    description: Blog App
