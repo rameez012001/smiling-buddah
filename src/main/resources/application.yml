@@ -21,14 +21,8 @@ management:
       exposure:
         include: "*"
 
-  endpoint:
-    metrics:
-      enabled: true
-    info:
-      enabled: true  # <-- This line enables the info endpoint
-
 info:
-  app:
-    name: SmilingBuddah
+  application:
+    name: SmilingBuddha
     version: 1.0.0
     description: Blog App
