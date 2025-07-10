@@ -1,8 +1,13 @@
 package com.smiling.buddah.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -11,17 +16,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @NotBlank
     private String username;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @NotBlank
+    @Email
     private String email;
 
-    @Column(nullable = false)
+    @NotBlank
     private String password;
 
     private String fullName;
 
+    @Size(max = 40)
     private String bio;
 
     private String profilePictureUrl;
@@ -31,6 +38,16 @@ public class User {
     private LocalDateTime createdAt;
 
     private boolean isActive = true;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_followers",// table created by this name
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "follower_id"))
+    private Set<User> followers = new HashSet<>();
+
+    @ManyToMany(mappedBy = "followers")
+    private Set<User> followings = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {
@@ -116,5 +133,21 @@ public class User {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Set<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Set<User> followers) {
+        this.followers = followers;
+    }
+
+    public Set<User> getFollowings() {
+        return followings;
+    }
+
+    public void setFollowings(Set<User> followings) {
+        this.followings = followings;
     }
 }
